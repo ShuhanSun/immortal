@@ -4,7 +4,7 @@ import {
   Map as MapIcon, User, Droplets, Swords, Skull, 
   Flame, Wind, ShoppingBag, Leaf, Coins, 
   ArrowUpCircle, Volume2, VolumeX, Cloud, Compass,
-  Zap, Shield, Heart, Info, X, Clock, Hammer, BookOpen, AlertTriangle, Eye, CheckCircle, Plus
+  Zap, Shield, Heart, Info, X, Clock, Hammer, BookOpen, AlertTriangle, Eye, CheckCircle, Plus, Hand, AlertOctagon, Package, Lock, Sun, Moon
 } from 'lucide-react';
 
 // --- 音效系统 (Web Audio API) ---
@@ -43,16 +43,17 @@ const SFX = {
         osc.frequency.setValueAtTime(100, t);
         osc.frequency.linearRampToValueAtTime(150, t + 4);
         gain.gain.setValueAtTime(0, t);
-        gain.gain.linearRampToValueAtTime(0.02, t + 4);
+        gain.gain.linearRampToValueAtTime(0.05, t + 2); 
+        gain.gain.linearRampToValueAtTime(0.02, t + 4); 
         osc.start(t);
         osc.stop(t + 4);
         break;
       case 'breath_out': 
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(150, t);
-        osc.frequency.linearRampToValueAtTime(100, t + 4);
+        osc.frequency.linearRampToValueAtTime(80, t + 4);
         gain.gain.setValueAtTime(0.02, t);
-        gain.gain.linearRampToValueAtTime(0, t + 4);
+        gain.gain.linearRampToValueAtTime(0, t + 4); 
         osc.start(t);
         osc.stop(t + 4);
         break;
@@ -164,19 +165,19 @@ const SFX = {
 // --- 游戏数据常量 ---
 
 const REALMS = [
-  { name: "凡人", maxExp: 100, hp: 50, atk: 5, def: 0, pill: "pillQi", color: "text-stone-400" },
-  { name: "炼气一层", maxExp: 200, hp: 100, atk: 15, def: 2, pill: "pillQi", color: "text-stone-300" },
-  { name: "炼气二层", maxExp: 400, hp: 150, atk: 25, def: 5, pill: "pillQi", color: "text-stone-200" },
-  { name: "炼气三层", maxExp: 800, hp: 220, atk: 40, def: 8, pill: "pillQi", color: "text-emerald-200" },
-  { name: "炼气四层", maxExp: 1500, hp: 300, atk: 60, def: 12, pill: "pillQi", color: "text-emerald-300" },
-  { name: "炼气五层", maxExp: 2500, hp: 400, atk: 85, def: 18, pill: "pillQi", color: "text-emerald-400" },
-  { name: "炼气六层", maxExp: 4000, hp: 550, atk: 110, def: 25, pill: "pillRare", color: "text-emerald-500" },
-  { name: "炼气七层", maxExp: 6000, hp: 700, atk: 140, def: 35, pill: "pillRare", color: "text-cyan-300" },
-  { name: "炼气八层", maxExp: 9000, hp: 900, atk: 180, def: 45, pill: "pillRare", color: "text-cyan-400" },
-  { name: "炼气九层", maxExp: 13000, hp: 1200, atk: 230, def: 60, pill: "pillRare", color: "text-cyan-500" },
-  { name: "炼气十层 (圆满)", maxExp: 18000, hp: 1500, atk: 280, def: 80, pill: "pillZhuJi", color: "text-cyan-600" },
-  { name: "筑基初期", maxExp: 50000, hp: 5000, atk: 800, def: 300, pill: "pillJieDan", color: "text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]" },
-  { name: "筑基中期", maxExp: 80000, hp: 8000, atk: 1200, def: 500, pill: "pillJieDan", color: "text-blue-500 drop-shadow-[0_0_15px_rgba(37,99,235,0.8)]" },
+  { name: "凡人", maxExp: 100, hp: 50, atk: 5, def: 0, pill: "pillQi", color: "text-stone-400", life: 100 },
+  { name: "炼气一层", maxExp: 200, hp: 100, atk: 15, def: 2, pill: "pillQi", color: "text-stone-300", life: 100 },
+  { name: "炼气二层", maxExp: 400, hp: 150, atk: 25, def: 5, pill: "pillQi", color: "text-stone-200", life: 100 },
+  { name: "炼气三层", maxExp: 800, hp: 220, atk: 40, def: 8, pill: "pillQi", color: "text-emerald-200", life: 100 },
+  { name: "炼气四层", maxExp: 1500, hp: 300, atk: 60, def: 12, pill: "pillQi", color: "text-emerald-300", life: 110 },
+  { name: "炼气五层", maxExp: 2500, hp: 400, atk: 85, def: 18, pill: "pillQi", color: "text-emerald-400", life: 110 },
+  { name: "炼气六层", maxExp: 4000, hp: 550, atk: 110, def: 25, pill: "pillRare", color: "text-emerald-500", life: 120 },
+  { name: "炼气七层", maxExp: 6000, hp: 700, atk: 140, def: 35, pill: "pillRare", color: "text-cyan-300", life: 130 },
+  { name: "炼气八层", maxExp: 9000, hp: 900, atk: 180, def: 45, pill: "pillRare", color: "text-cyan-400", life: 140 },
+  { name: "炼气九层", maxExp: 13000, hp: 1200, atk: 230, def: 60, pill: "pillRare", color: "text-cyan-500", life: 150 },
+  { name: "炼气十层 (圆满)", maxExp: 18000, hp: 1500, atk: 280, def: 80, pill: "pillZhuJi", color: "text-cyan-600", life: 150 },
+  { name: "筑基初期", maxExp: 50000, hp: 5000, atk: 800, def: 300, pill: "pillJieDan", color: "text-indigo-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]", life: 250 },
+  { name: "筑基中期", maxExp: 80000, hp: 8000, atk: 1200, def: 500, pill: "pillJieDan", color: "text-indigo-300 drop-shadow-[0_0_15px_rgba(37,99,235,0.8)]", life: 300 },
 ];
 
 const ITEMS = {
@@ -251,7 +252,8 @@ const Button = ({ onClick, disabled, children, variant = "primary", className = 
     secondary: "bg-stone-800 hover:bg-stone-700 text-stone-300 border border-stone-600",
     danger: "bg-red-900/50 hover:bg-red-800/50 text-red-200 border border-red-800",
     outline: "bg-transparent border border-amber-800/50 text-amber-700 hover:bg-amber-900/10",
-    success: "bg-green-800 hover:bg-green-700 text-green-100 border border-green-600"
+    success: "bg-green-800 hover:bg-green-700 text-green-100 border border-green-600",
+    warning: "bg-yellow-700 hover:bg-yellow-600 text-yellow-100 border border-yellow-600"
   };
 
   const createRipple = (event) => {
@@ -286,27 +288,42 @@ const Button = ({ onClick, disabled, children, variant = "primary", className = 
   );
 };
 
-const ProgressBar = ({ value, max, color = "bg-amber-600", label, showText = true, height = "h-2" }) => (
-  <div className="w-full">
+const ProgressBar = ({ value, max, color = "bg-amber-600", label, showText = true, height = "h-2", isBottleneck = false }) => (
+  <div className="w-full relative">
     {showText && (
       <div className="flex justify-between text-xs mb-1 text-stone-400 font-serif">
-        <span>{label}</span>
+        <span className="flex items-center gap-1">
+           {label} 
+           {isBottleneck && <span className="text-[10px] text-red-500 font-bold bg-red-900/20 px-1 rounded animate-pulse">[瓶颈]</span>}
+        </span>
         <span>{Math.floor(value)} / {max}</span>
       </div>
     )}
-    <div className={`${height} bg-stone-900 rounded-full overflow-hidden border border-stone-700 relative`}>
-      <div className={`h-full ${color} transition-all duration-300`} style={{ width: `${Math.min(100, (value / max) * 100)}%` }} />
+    <div className={`${height} bg-stone-900 rounded-full overflow-hidden border ${isBottleneck ? 'border-red-500' : 'border-stone-700'} relative`}>
+      <div className={`h-full ${isBottleneck ? 'bg-red-600' : color} transition-all duration-300`} style={{ width: `${Math.min(100, (value / max) * 100)}%` }} />
+      {isBottleneck && (
+         <div className="absolute inset-0 bg-stripes-red pointer-events-none"></div>
+      )}
     </div>
+    <style>{`
+      .bg-stripes-red {
+         background-image: linear-gradient(45deg, rgba(255,255,255,.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.15) 75%, transparent 75%, transparent);
+         background-size: 0.5rem 0.5rem;
+      }
+    `}</style>
   </div>
 );
 
 // --- 全局特效组件 ---
-const VisualEffects = ({ type, onComplete, text }) => {
+const VisualEffects = ({ type, onComplete, text, onClose }) => {
   useEffect(() => {
-    const duration = type === 'alchemy_fail' || type === 'alchemy_success' ? 3000 : 2000;
+    if (type === 'alchemy_fail' || type === 'alchemy_success' || type === 'level_up' || type === 'breakthrough_fail' || type === 'victory') {
+        return; 
+    }
+    const duration = 2000;
     const timer = setTimeout(onComplete, duration);
     return () => clearTimeout(timer);
-  }, [onComplete, type]);
+  }, [onComplete, type, onClose]);
 
   return (
     <>
@@ -341,10 +358,12 @@ const VisualEffects = ({ type, onComplete, text }) => {
       {type === 'alchemy_fail' && (
          <div className="absolute inset-0 z-[60] flex items-center justify-center bg-black/60">
             <div className="relative" style={{ animation: 'shake 0.5s infinite' }}>
+               <button onClick={onClose} className="absolute -top-8 -right-8 text-white hover:text-red-500 z-50"><X size={32}/></button>
                <Cloud size={100} className="text-stone-600 filter blur-sm"/>
                <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center text-stone-300 font-bold text-xl">
                   炸炉！黑烟滚滚...
                </div>
+               {/* 粒子黑烟模拟 */}
                <div className="absolute -top-10 left-10 w-4 h-4 bg-stone-700 rounded-full" style={{ animation: 'floatUp 2s infinite' }}></div>
                <div className="absolute -top-16 left-20 w-6 h-6 bg-stone-800 rounded-full" style={{ animation: 'floatUp 2.5s infinite' }}></div>
                <div className="absolute -top-12 left-5 w-5 h-5 bg-stone-900 rounded-full" style={{ animation: 'floatUp 1.5s infinite' }}></div>
@@ -355,10 +374,30 @@ const VisualEffects = ({ type, onComplete, text }) => {
       {type === 'alchemy_success' && (
          <div className="absolute inset-0 z-[60] flex items-center justify-center bg-amber-500/20">
             <div className="relative flex flex-col items-center animate-in zoom-in duration-500">
+               <button onClick={onClose} className="absolute -top-8 -right-8 text-white hover:text-amber-300 z-50"><X size={32}/></button>
                <div className="absolute inset-0 bg-amber-400 blur-3xl opacity-50 animate-pulse"></div>
                <FlaskConical size={80} className="text-amber-300 drop-shadow-[0_0_20px_rgba(251,191,36,1)] rotate-12" />
                <div className="mt-4 text-2xl font-bold text-amber-100 font-serif drop-shadow-md">丹成！金光乍现</div>
             </div>
+         </div>
+      )}
+
+      {type === 'breakthrough_fail' && (
+         <div className="absolute inset-0 z-[60] flex items-center justify-center bg-red-900/40 backdrop-blur-sm animate-in fade-in duration-300">
+             <div className="flex flex-col items-center relative">
+                <button onClick={onClose} className="absolute -top-12 right-0 text-white hover:text-red-500 z-50"><X size={32}/></button>
+                <AlertOctagon size={80} className="text-red-500 mb-4 animate-bounce" />
+                <h2 className="text-4xl font-bold text-red-500 font-serif mb-2">走火入魔</h2>
+                <p className="text-red-200 text-lg">经脉逆行，口吐鲜血！</p>
+                <div className="mt-8">
+                   {/* 倒地小人SVG */}
+                   <svg width="100" height="60" viewBox="0 0 100 60" className="text-stone-400">
+                      <path d="M20 50 L80 50" stroke="currentColor" strokeWidth="4" />
+                      <circle cx="15" cy="45" r="8" fill="currentColor" />
+                      <path d="M20 55 Q25 60 30 55" stroke="#ef4444" strokeWidth="3" fill="none" />
+                   </svg>
+                </div>
+             </div>
          </div>
       )}
     </>
@@ -418,7 +457,7 @@ const PlantingModal = ({ inventory, onClose, onPlant }) => {
    )
 };
 
-// --- 丹药选择弹窗 (新增：用于瓶颈突破) ---
+// --- 丹药选择弹窗 ---
 const PillSelectModal = ({ inventory, onClose, onUse }) => {
    const pills = Object.keys(inventory).filter(k => ITEMS[k].type === 'consumable');
    return (
@@ -530,20 +569,20 @@ const PlayerStatsModal = ({ player, stats, onClose }) => {
 
             <div className="grid grid-cols-2 gap-4 mb-6">
                <div className="bg-stone-800/50 p-3 rounded">
-                  <div className="text-xs text-stone-500">攻击力 (基础+{stats.atk - REALMS[player.realmIdx].atk})</div>
+                  <div className="text-xs text-stone-500">骨龄 / 寿元</div>
+                  <div className="text-lg font-mono text-stone-300">{player.age.toFixed(1)} / {player.maxAge}</div>
+               </div>
+               <div className="bg-stone-800/50 p-3 rounded">
+                  <div className="text-xs text-stone-500">神识</div>
+                  <div className="text-lg font-mono text-stone-300">普通</div>
+               </div>
+               <div className="bg-stone-800/50 p-3 rounded">
+                  <div className="text-xs text-stone-500">攻击力</div>
                   <div className="text-lg font-mono text-amber-400">{stats.atk}</div>
                </div>
                <div className="bg-stone-800/50 p-3 rounded">
-                  <div className="text-xs text-stone-500">防御力 (基础+{stats.def - REALMS[player.realmIdx].def})</div>
+                  <div className="text-xs text-stone-500">防御力</div>
                   <div className="text-lg font-mono text-stone-300">{stats.def}</div>
-               </div>
-               <div className="bg-stone-800/50 p-3 rounded">
-                  <div className="text-xs text-stone-500">气血上限</div>
-                  <div className="text-lg font-mono text-red-400">{player.maxHp}</div>
-               </div>
-               <div className="bg-stone-800/50 p-3 rounded">
-                  <div className="text-xs text-stone-500">法力上限</div>
-                  <div className="text-lg font-mono text-blue-400">{player.maxMp}</div>
                </div>
             </div>
 
@@ -570,7 +609,7 @@ const PlayerStatsModal = ({ player, stats, onClose }) => {
 
 export default function CultivationGame() {
   const [player, setPlayer] = useState({
-    name: "韩立", realmIdx: 0, exp: 0, hp: 50, maxHp: 50, mp: 100, maxMp: 100, gold: 10,
+    name: "韩立", realmIdx: 0, exp: 0, hp: 50, maxHp: 50, mp: 100, maxMp: 100, gold: 10, age: 16, maxAge: 100,
     inventory: { pillQi: 5, herbSeed: 5, talismanFire: 3, ironSword: 1 },
     learnedMethods: [], equipped: []
   });
@@ -590,13 +629,15 @@ export default function CultivationGame() {
   const [showAlchemySelect, setShowAlchemySelect] = useState(false); 
   const [showStats, setShowStats] = useState(false);
   const [showEnemyInfo, setShowEnemyInfo] = useState(false);
-  const [showPillSelect, setShowPillSelect] = useState(false); // 新增：瓶颈选药
+  const [showPillSelect, setShowPillSelect] = useState(false); 
+  const [isBagOpen, setIsBagOpen] = useState(false); // New: bag state
   
   // 炼丹状态
   const [alchemyState, setAlchemyState] = useState({ active: false, progress: 0, result: null });
 
   // 吐纳与动画
   const [isMeditating, setIsMeditating] = useState(false);
+  const [meditationTime, setMeditationTime] = useState(0); // 本次入定时间
   const [breathPhase, setBreathPhase] = useState('idle');
   const [showLevelUp, setShowLevelUp] = useState(false);
   const [breakthroughRealm, setBreakthroughRealm] = useState(""); 
@@ -617,16 +658,37 @@ export default function CultivationGame() {
      setTimeout(() => setToast(null), 2500);
   };
 
-  const handleFxComplete = useCallback(() => {
+  const handleFxClose = useCallback(() => {
      setFx(null);
-  }, []);
+     if (fx === 'alchemy_fail' || fx === 'alchemy_success') {
+        setAlchemyState({ active: false, progress: 0, result: null });
+     }
+  }, [fx]);
+
+  const handleLevelUpClose = () => {
+    setShowLevelUp(false);
+  };
 
   const triggerFx = (type) => {
      setFx(type);
   };
 
+  // 古文数字
+  const toChineseNum = (num) => {
+     const chars = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+     return num.toString().split('').map(d => chars[parseInt(d)]).join('');
+  }
+
+  // 古文时间转换器
+  const formatAncientTime = (seconds) => {
+     const y = Math.floor(seconds / 360);
+     const m = Math.floor((seconds % 360) / 30);
+     const d = Math.floor(seconds % 30);
+     return `${y > 0 ? toChineseNum(y) + '载 ' : ''}${m > 0 ? toChineseNum(m) + '月 ' : ''}${toChineseNum(d)}日`;
+  }
+
   useEffect(() => {
-    const savedData = localStorage.getItem('hanli_origin_save_v3_8');
+    const savedData = localStorage.getItem('hanli_origin_save_v4_6');
     if (savedData) {
       try {
         const parsed = JSON.parse(savedData);
@@ -642,7 +704,7 @@ export default function CultivationGame() {
 
   useEffect(() => {
     if (isInitialMount.current) return;
-    localStorage.setItem('hanli_origin_save_v3_8', JSON.stringify({ player, garden, bottleCharge }));
+    localStorage.setItem('hanli_origin_save_v4_6', JSON.stringify({ player, garden, bottleCharge }));
   }, [player, garden, bottleCharge]);
 
   useEffect(() => { logEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [logs]);
@@ -653,8 +715,10 @@ export default function CultivationGame() {
     return () => clearInterval(timer);
   }, []);
 
+  // 吐纳循环 & 计时
   useEffect(() => {
     let interval;
+    let timerInterval;
     if (isMeditating) {
       if (breathPhase === 'idle') setBreathPhase('in');
       interval = setInterval(() => {
@@ -669,11 +733,18 @@ export default function CultivationGame() {
           }
         });
       }, 5000);
+      
+      // 计时器
+      timerInterval = setInterval(() => {
+         setMeditationTime(prev => prev + 1);
+      }, 1000); // 1秒 = 1日
+
       if (breathPhase === 'idle' && soundEnabled) SFX.play('breath_in');
     } else {
       setBreathPhase('idle');
+      setMeditationTime(0);
     }
-    return () => clearInterval(interval);
+    return () => { clearInterval(interval); clearInterval(timerInterval); };
   }, [isMeditating, soundEnabled]);
 
   const getStats = () => {
@@ -733,14 +804,23 @@ export default function CultivationGame() {
        setIsMeditating(false);
        return;
     }
-    const baseGain = 5; 
-    const gain = Math.floor(baseGain * stats.expMult);
-    const hpRec = Math.floor(player.maxHp * 0.05);
+    
     setPlayer(prev => {
-      let nextExp = prev.exp + gain;
-      const cap = Math.floor(currentRealm.maxExp * 0.95);
-      if (nextExp > cap) nextExp = cap;
-      return { ...prev, exp: nextExp, hp: Math.min(prev.maxHp, prev.hp + hpRec) };
+        // 3次吐纳(30s) = 1个月(1/12岁).  1次吐纳 = 1/36岁
+        let nextAge = prev.age + (1/36); 
+        if (nextAge >= prev.maxAge) {
+           // 寿元耗尽逻辑
+        }
+
+        const baseGain = 5; 
+        const gain = Math.floor(baseGain * stats.expMult);
+        const hpRec = Math.floor(player.maxHp * 0.05);
+        
+        let nextExp = prev.exp + gain;
+        const cap = Math.floor(currentRealm.maxExp * 0.95);
+        if (nextExp > cap) nextExp = cap;
+        
+        return { ...prev, exp: nextExp, hp: Math.min(prev.maxHp, prev.hp + hpRec), age: nextAge };
     });
   };
 
@@ -748,7 +828,6 @@ export default function CultivationGame() {
     const item = ITEMS[key];
     const realm = REALMS[player.realmIdx];
     
-    // 战斗中使用物品
     if (combatState) {
        if(combatState.turn !== 'player') {
           showToast("还未轮到你的回合");
@@ -775,7 +854,6 @@ export default function CultivationGame() {
        return;
     }
 
-    // 关闭瓶颈选药弹窗（如果打开）
     setShowPillSelect(false);
 
     if (item.type === 'method') {
@@ -854,20 +932,29 @@ export default function CultivationGame() {
     const successRate = isMajor ? 0.5 : 0.8;
     if (Math.random() < successRate) {
        const newIdx = player.realmIdx + 1;
+       if (newIdx >= REALMS.length) { showToast("已臻化境，前路未开"); return; }
        setBreakthroughRealm(REALMS[newIdx].name); 
        setShowLevelUp(true);
        SFX.play('level_up');
-       setTimeout(() => setShowLevelUp(false), 4000);
        
        setPlayer(prev => ({
-         ...prev, realmIdx: newIdx, exp: 0, maxHp: REALMS[newIdx].hp, hp: REALMS[newIdx].hp, maxMp: 100 + newIdx * 20, mp: 100 + newIdx * 20
+         ...prev, 
+         realmIdx: newIdx, 
+         exp: 0, 
+         maxHp: REALMS[newIdx].hp, 
+         hp: REALMS[newIdx].hp, 
+         maxMp: 100 + newIdx * 20, 
+         mp: 100 + newIdx * 20,
+         maxAge: REALMS[newIdx].life 
        }));
        showToast(`突破成功！晋升${REALMS[newIdx].name}`);
        addLog(`>>> 突破成功！晋升为【${REALMS[newIdx].name}】 <<<`);
     } else {
-       const dmg = Math.floor(player.maxHp * 0.3);
+       const dmg = Math.floor(player.maxHp * 0.5);
        setPlayer(prev => ({ ...prev, hp: Math.max(1, prev.hp - dmg), exp: Math.floor(currentRealm.maxExp * 0.8) }));
-       showToast("突破失败！经脉受损");
+       showToast("突破失败！走火入魔");
+       triggerFx('breakthrough_fail');
+       setIsMeditating(false); // 停止吐纳
        SFX.play('error');
     }
   };
@@ -911,13 +998,16 @@ export default function CultivationGame() {
 
   const collectPill = () => {
       gainItem('pillQi');
-      // 修复：重置炼丹状态时，确保 pointer-events 恢复
       setAlchemyState({ active: false, progress: 0, result: null });
+      setFx(null); // Close success visual
   };
 
-  // --- 历练系统 (修复逃跑逻辑) ---
+  // --- 历练系统 ---
   const startExplore = () => {
-    if(isMeditating) setIsMeditating(false);
+    if(isMeditating) {
+        setIsMeditating(false);
+        showToast("停止吐纳，外出历练");
+    }
     setExploreState({ active: true, progress: [], result: null, step: 0 });
     SFX.play('fly');
     
@@ -974,12 +1064,10 @@ export default function CultivationGame() {
     let dmg = 0;
     let newLog = [...combatState.log];
     
-    // 修复：逃跑逻辑
     if (action === 'escape') {
         triggerFx('escape');
         SFX.play('fly');
         setTimeout(() => {
-            // 重置历练状态，防止动画继续或界面卡死
             setExploreState({ active: false, progress: [], result: null, step: 0 });
             setCombatState(null); 
             setView("explore"); 
@@ -1011,12 +1099,13 @@ export default function CultivationGame() {
 
     if (enemyHp <= 0) {
         setTimeout(() => {
-            gainItem(combatState.enemy.loot || "spiritStone");
-            // 胜利后同样要重置历练状态
-            setExploreState({ active: false, progress: [], result: null, step: 0 });
-            setCombatState(null); 
-            setView("explore");
-            showToast("战斗胜利！");
+            setCombatState(prev => ({
+               ...prev,
+               victory: true,
+               loot: combatState.enemy.loot || "spiritStone",
+               isAnimating: false
+            }));
+            SFX.play('success');
         }, 1000);
         return;
     }
@@ -1052,6 +1141,13 @@ export default function CultivationGame() {
     }, 1500);
   };
 
+  const claimVictory = () => {
+     gainItem(combatState.loot);
+     setExploreState({ active: false, progress: [], result: null, step: 0 });
+     setCombatState(null);
+     setView("explore");
+  };
+
   // --- 灵药园逻辑 ---
   const getHerbName = (p) => {
      const base = "黄龙草";
@@ -1085,10 +1181,9 @@ export default function CultivationGame() {
 
   const harvestHerb = (id, year) => {
     setGarden(prev => prev.filter(p => p.id !== id));
-    let multiplier = Math.max(1, Math.floor(year / 100));
-    if (year >= 500) multiplier *= 3;
-    if (year >= 1000) multiplier *= 5;
-    gainItem("spiritHerb", multiplier);
+    if (year >= 1000) gainItem("spiritHerb_1000", 1);
+    else if (year >= 100) gainItem("spiritHerb_100", 1);
+    else gainItem("spiritHerb", 1);
   };
 
   const plantHerb = (seedId) => {
@@ -1119,7 +1214,7 @@ export default function CultivationGame() {
   return (
     <div onClick={handleInteraction} className="min-h-screen bg-stone-950 text-stone-300 font-sans flex flex-col md:flex-row overflow-hidden select-none relative">
       
-      {fx && <VisualEffects type={fx} onComplete={handleFxComplete} />}
+      {fx && <VisualEffects type={fx} onComplete={handleFxClose} onClose={handleFxClose} />}
       {toast && <VisualEffects type="toast" text={toast} onComplete={() => {}} />}
       
       {selectedItem && (
@@ -1148,7 +1243,7 @@ export default function CultivationGame() {
          />
       )}
 
-      {/* 瓶颈选药 (新增) */}
+      {/* 瓶颈选药 */}
       {showPillSelect && (
          <PillSelectModal 
             inventory={player.inventory} 
@@ -1175,6 +1270,7 @@ export default function CultivationGame() {
       {showLevelUp && (
          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 animate-in fade-in duration-500">
             <div className="text-center relative">
+               <button onClick={handleLevelUpClose} className="absolute -top-16 right-0 text-stone-500 hover:text-amber-500 z-50"><X size={40}/></button>
                <div className="absolute inset-0 bg-amber-500 blur-[100px] opacity-50 animate-pulse"></div>
                <h1 className="text-6xl md:text-8xl font-bold text-amber-100 font-serif mb-4 relative z-10 animate-bounce">
                   境界突破
@@ -1190,12 +1286,12 @@ export default function CultivationGame() {
       )}
 
       {/* 侧边栏 */}
-      <nav className="w-full md:w-64 bg-stone-900 border-r border-amber-900/30 flex flex-col shrink-0">
-        <div className="p-6 bg-stone-900/50 border-b border-amber-900/30">
+      <nav className="w-full md:w-64 bg-stone-900 border-r border-amber-900/30 flex flex-col shrink-0 h-screen md:h-auto overflow-hidden">
+        <div className="p-6 bg-stone-900/50 border-b border-amber-900/30 flex-shrink-0">
           <h1 className="text-2xl font-serif font-bold text-amber-500 flex items-center gap-2">
             <Sparkles className="w-5 h-5" /> 凡人修仙
           </h1>
-          <p className="text-xs text-stone-500 mt-1">Origin v3.8 (真灵篇)</p>
+          <p className="text-xs text-stone-500 mt-1">Origin v4.6 (化神篇)</p>
         </div>
         <div className="flex-1 overflow-y-auto py-4 space-y-1">
           {[
@@ -1218,8 +1314,8 @@ export default function CultivationGame() {
       </nav>
 
       {/* 主界面 */}
-      <main className="flex-1 flex flex-col min-w-0 bg-[url('https://www.transparenttextures.com/patterns/black-linen.png')]">
-        <header className="bg-stone-900/80 backdrop-blur p-4 flex flex-wrap gap-6 items-center border-b border-amber-900/30 z-10">
+      <main className="flex-1 flex flex-col min-w-0 bg-[url('https://www.transparenttextures.com/patterns/black-linen.png')] h-screen overflow-hidden">
+        <header className="bg-stone-900/80 backdrop-blur p-4 flex flex-wrap gap-6 items-center border-b border-amber-900/30 z-10 flex-shrink-0">
           <div className="flex items-center gap-3 min-w-[150px] cursor-pointer hover:opacity-80 transition-opacity" onClick={() => setShowStats(true)}>
              <div className="w-10 h-10 rounded-full bg-stone-800 border border-amber-700 flex items-center justify-center">
                <User className={`w-6 h-6 ${REALMS[player.realmIdx].color}`} />
@@ -1230,8 +1326,13 @@ export default function CultivationGame() {
              </div>
           </div>
           <div className="flex-1 grid grid-cols-2 gap-4">
-            <ProgressBar value={player.hp} max={player.maxHp} color="bg-red-700" label="气血" />
-            <ProgressBar value={player.exp} max={stats.maxExp} color="bg-cyan-700" label="修为" />
+            <ProgressBar 
+               value={player.hp} max={player.maxHp} color="bg-red-700" label="气血" 
+            />
+            <ProgressBar 
+               value={player.exp} max={stats.maxExp} color="bg-cyan-700" label="修为"
+               isBottleneck={player.exp >= Math.floor(stats.maxExp * 0.95) && player.exp < stats.maxExp}
+            />
           </div>
           <div className="flex items-center gap-4 text-amber-500 font-mono font-bold">
              <span className="flex items-center gap-1"><Coins size={16}/> {player.gold}</span>
@@ -1248,14 +1349,27 @@ export default function CultivationGame() {
               <div className="absolute inset-0 z-20 bg-stone-950/95 flex items-center justify-center p-4">
                  <Card title={`遭遇战：${combatState.enemy.name}`} className="w-full max-w-3xl border-red-900 relative">
                     
-                    {combatState.enemy.realmIdx - player.realmIdx >= 3 && (
-                       <div className="absolute top-2 left-1/2 -translate-x-1/2 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded animate-pulse shadow-lg z-30 flex items-center gap-2">
-                          <AlertTriangle size={14}/> 极度危险：境界悬殊，不可力敌！
+                    {/* 胜利结算遮罩 */}
+                    {combatState.victory && (
+                       <div className="absolute inset-0 z-50 bg-black/80 flex flex-col items-center justify-center animate-in zoom-in duration-300">
+                          <button onClick={() => setCombatState(null)} className="absolute top-8 right-8 text-stone-500 hover:text-white"><X size={32}/></button>
+                          <h2 className="text-4xl font-bold text-amber-500 mb-6 font-serif">大 获 全 胜</h2>
+                          <div className="bg-stone-800 border border-amber-700 p-4 rounded-lg flex flex-col items-center mb-8 animate-bounce">
+                             <div className="text-stone-400 text-sm mb-2">战利品</div>
+                             <div className="flex items-center gap-2">
+                                <div className="w-12 h-12 bg-stone-900 rounded flex items-center justify-center border border-stone-600">
+                                   {ITEMS[combatState.loot]?.icon && React.createElement(ITEMS[combatState.loot].icon, { size: 24, className: "text-amber-400" })}
+                                </div>
+                                <span className="text-amber-100">{ITEMS[combatState.loot]?.name}</span>
+                             </div>
+                          </div>
+                          <Button onClick={claimVictory} variant="primary" className="w-40 py-3 text-lg">
+                             <Hand size={20}/> 拾取战利品
+                          </Button>
                        </div>
                     )}
 
                     <div className="flex justify-between items-stretch h-64 mb-6 relative">
-                       {/* 左侧：敌人 */}
                        <div className="w-1/3 bg-stone-900/50 border-r border-stone-800 p-4 flex flex-col items-center justify-center relative">
                           <div className={`relative ${combatState.turn === 'enemy' ? 'scale-110 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]' : ''} transition-all duration-300`}>
                              <div className="w-24 h-24 flex items-center justify-center">
@@ -1275,7 +1389,6 @@ export default function CultivationGame() {
                           <button onClick={() => setShowEnemyInfo(true)} className="absolute top-2 left-2 text-stone-600 hover:text-stone-300"><Eye size={16}/></button>
                        </div>
 
-                       {/* 中间：VS 与日志 */}
                        <div className="flex-1 flex flex-col justify-between p-4 relative">
                           <div className="text-center text-red-900/20 text-8xl font-black italic absolute inset-0 flex items-center justify-center select-none pointer-events-none">VS</div>
                           <div className="flex-1 overflow-y-auto font-mono text-xs text-stone-400 space-y-1 z-10 scrollbar-hide flex flex-col justify-end">
@@ -1285,7 +1398,6 @@ export default function CultivationGame() {
                           </div>
                        </div>
 
-                       {/* 右侧：玩家 */}
                        <div className="w-1/3 bg-stone-900/50 border-l border-stone-800 p-4 flex flex-col items-center justify-center">
                           <div className={`relative ${combatState.turn === 'player' ? 'scale-110 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]' : ''} transition-all duration-300`}>
                              <div className="w-24 h-24 bg-stone-800 rounded-full border-2 border-stone-600 flex items-center justify-center">
@@ -1310,12 +1422,12 @@ export default function CultivationGame() {
                        <div className="grid grid-cols-2 gap-3">
                           <Button 
                              onClick={() => executeCombatTurn('attack')} 
-                             disabled={combatState.turn !== 'player' || combatState.isAnimating}
+                             disabled={combatState.turn !== 'player' || combatState.isAnimating || combatState.victory}
                              className={combatState.turn !== 'player' ? 'opacity-50' : ''}
                           >
                              <Swords size={16}/> 普通攻击
                           </Button>
-                          <Button onClick={() => executeCombatTurn('escape')} variant="danger"><Wind size={16}/> 逃跑</Button>
+                          <Button onClick={() => executeCombatTurn('escape')} variant="danger" disabled={combatState.victory}><Wind size={16}/> 逃跑</Button>
                        </div>
                        
                        <div className="border-t border-stone-700 pt-2">
@@ -1327,7 +1439,7 @@ export default function CultivationGame() {
                                 <button 
                                    key={k} 
                                    onClick={() => useItem(k)} 
-                                   disabled={combatState.turn !== 'player' || combatState.isAnimating}
+                                   disabled={combatState.turn !== 'player' || combatState.isAnimating || combatState.victory}
                                    className="shrink-0 bg-stone-800 border border-stone-600 px-2 py-1 rounded text-xs hover:border-amber-500 flex items-center gap-2 group transition-colors disabled:opacity-50"
                                 >
                                    {ItemIcon && <ItemIcon size={12} className="text-stone-400 group-hover:text-amber-500"/>}
@@ -1342,34 +1454,93 @@ export default function CultivationGame() {
               </div>
            )}
 
-           <div className="max-w-4xl mx-auto space-y-6">
+           <div className="flex flex-col h-full gap-4">
               
               {view === "cave" && (
-                <div className="grid md:grid-cols-2 gap-6">
-                   <Card title="洞府静室" glow={isMeditating} className="h-auto md:h-[24rem] flex flex-col items-center justify-between text-center relative py-6">
-                      <div className="relative flex-1 w-full flex items-center justify-center">
-                         {/* 吐纳光效优化：大周天搬运光带 */}
-                         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <div className={`w-2 h-32 bg-amber-200/50 blur-sm rounded-full transition-all duration-[4000ms] ease-in-out ${breathPhase === 'in' ? '-translate-y-4 opacity-100 scale-y-125' : 'translate-y-8 opacity-30 scale-y-75'}`}></div>
-                            <div className={`absolute w-32 h-32 rounded-full border-2 border-amber-500/20 transition-all duration-[4000ms] ${breathPhase === 'in' ? 'scale-110 opacity-50' : 'scale-90 opacity-10'}`}></div>
+                <>
+                   {/* 洞府高度占据主要空间 */}
+                   <Card title="洞府静室" glow={isMeditating} className="flex-1 flex flex-col justify-end relative overflow-hidden">
+                      
+                      {/* 动态日月背景 (增强昼夜感) */}
+                      <div className={`absolute inset-0 transition-colors duration-[5000ms] ${breathPhase === 'in' ? 'bg-sky-200/10' : 'bg-black'}`}></div>
+                      {/* 雾气(日) / 星空(夜) */}
+                      <div className={`absolute inset-0 bg-gradient-to-b from-white/20 to-transparent transition-opacity duration-[5000ms] ${breathPhase === 'in' ? 'opacity-50' : 'opacity-0'}`}></div>
+                      <div className={`absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] transition-opacity duration-[5000ms] ${breathPhase === 'out' ? 'opacity-80' : 'opacity-0'}`}></div>
+
+                      {/* 日升月落轨迹 (半圆拱形: 逆时针 右->左) */}
+                      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                         {/* 太阳: 右下 -> 顶 -> 左下 */}
+                         <div className={`absolute bottom-[-20%] left-[10%] w-[80%] h-[120%] transition-transform duration-[5000ms] ease-linear`} 
+                              style={{ 
+                                 transformOrigin: '50% 100%', 
+                                 transform: breathPhase === 'in' ? 'rotate(-180deg)' : 'rotate(0deg)' 
+                              }}>
+                            <div className={`absolute top-0 right-0 -translate-y-1/2 text-amber-300 transition-opacity duration-1000 ${breathPhase === 'in' ? 'opacity-100' : 'opacity-0'}`}>
+                               <div className="w-20 h-20 rounded-full bg-amber-400 shadow-[0_0_60px_30px_rgba(251,191,36,0.8)] flex items-center justify-center">
+                                  <div className="w-16 h-16 bg-amber-100 rounded-full blur-sm"></div>
+                               </div>
+                            </div>
                          </div>
-                         <svg width="140" height="140" viewBox="0 0 100 100" className={`relative z-10 ${REALMS[player.realmIdx].color} transition-colors duration-[4000ms] ${breathPhase === 'in' ? 'drop-shadow-[0_0_15px_rgba(251,191,36,0.6)]' : ''}`}>
-                            <circle cx="50" cy="25" r="9" fill="currentColor" />
-                            <circle cx="50" cy="16" r="3.5" fill="currentColor" />
-                            <path fill="currentColor" d="M36 38 Q50 34 64 38 L72 80 Q50 88 28 80 Z" />
-                            <path fill="currentColor" d="M22 75 Q35 70 50 78 Q65 70 78 75 L74 85 Q50 92 26 85 Z" />
-                            <circle cx="42" cy="58" r="3.5" fill="currentColor" />
-                            <circle cx="58" cy="58" r="3.5" fill="currentColor" />
-                         </svg>
-                         <div className="absolute bottom-0 text-xs font-mono text-stone-500 h-4 tracking-widest uppercase">
-                            {breathPhase === 'in' ? '▲ 纳 气 ▲' : breathPhase === 'out' ? '▼ 吐 浊 ▼' : ''}
+                         
+                         {/* 月亮: 右下 -> 顶 -> 左下 */}
+                         <div className={`absolute bottom-[-20%] left-[10%] w-[80%] h-[120%] transition-transform duration-[5000ms] ease-linear`} 
+                              style={{ 
+                                 transformOrigin: '50% 100%', 
+                                 transform: breathPhase === 'out' ? 'rotate(-180deg)' : 'rotate(0deg)' 
+                              }}>
+                            <div className={`absolute top-0 right-0 -translate-y-1/2 text-indigo-100 transition-opacity duration-1000 ${breathPhase === 'out' ? 'opacity-100' : 'opacity-0'}`}>
+                               <div className="w-16 h-16 rounded-full bg-slate-200 shadow-[0_0_40px_15px_rgba(199,210,254,0.5)]"></div>
+                            </div>
                          </div>
                       </div>
+
+                      {/* 人物居中下方 */}
+                      <div className="relative w-full flex flex-col items-center z-10 mb-4">
+                         {/* 吐纳光效 */}
+                         <div className="absolute bottom-0 flex items-end justify-center pointer-events-none">
+                            <div className={`w-4 h-40 bg-amber-200/50 blur-md rounded-full transition-all duration-[4000ms] ease-in-out ${breathPhase === 'in' ? '-translate-y-8 opacity-100 scale-y-125' : 'translate-y-0 opacity-20 scale-y-50'}`}></div>
+                            <div className={`absolute w-40 h-40 rounded-full border border-amber-500/30 transition-all duration-[4000ms] ${breathPhase === 'in' ? 'scale-110 opacity-60' : 'scale-90 opacity-10'}`}></div>
+                         </div>
+                         
+                         {/* 人物剪影 */}
+                         {isMeditating ? (
+                             <svg width="160" height="160" viewBox="0 0 100 100" className={`relative z-10 ${REALMS[player.realmIdx].color} transition-colors duration-[4000ms] ${breathPhase === 'in' ? 'drop-shadow-[0_0_20px_rgba(251,191,36,0.5)]' : ''}`}>
+                                <circle cx="50" cy="25" r="9" fill="currentColor" />
+                                <circle cx="50" cy="16" r="3.5" fill="currentColor" />
+                                <path fill="currentColor" d="M36 38 Q50 34 64 38 L72 80 Q50 88 28 80 Z" />
+                                <path fill="currentColor" d="M22 75 Q35 70 50 78 Q65 70 78 75 L74 85 Q50 92 26 85 Z" />
+                                <circle cx="42" cy="58" r="3.5" fill="currentColor" />
+                                <circle cx="58" cy="58" r="3.5" fill="currentColor" />
+                             </svg>
+                         ) : (
+                             <svg width="120" height="160" viewBox="0 0 100 140" className={`relative z-10 ${REALMS[player.realmIdx].color}`}>
+                                <circle cx="50" cy="25" r="9" fill="currentColor" />
+                                <circle cx="50" cy="16" r="3.5" fill="currentColor" />
+                                <path fill="currentColor" d="M38 40 Q50 35 62 40 L70 110 Q50 120 30 110 Z" />
+                                <circle cx="45" cy="75" r="3.5" fill="currentColor" />
+                                <circle cx="55" cy="75" r="3.5" fill="currentColor" />
+                             </svg>
+                         )}
+
+                         {/* 计时显示 (更新为古文) */}
+                         {isMeditating && (
+                             <div className="absolute -top-8 text-amber-500/70 font-mono text-xs bg-black/30 px-2 py-1 rounded">
+                                入定: {formatAncientTime(meditationTime)}
+                             </div>
+                         )}
+                      </div>
                       
-                      {/* 瓶颈提示 (可点击) */}
-                      <div className="space-y-3 w-full px-8 mt-4 relative z-20">
+                      {/* 底部操作栏 */}
+                      <div className="w-full px-6 space-y-3 relative z-20 bg-stone-900/60 p-4 rounded-t-xl backdrop-blur-sm border-t border-stone-700">
+                         {/* 状态提示 */}
+                         {isMeditating && (
+                            <div className="text-center text-xs font-mono text-stone-400 mb-2 animate-pulse">
+                               {breathPhase === 'in' ? '☀ 旭日东升 (采气)' : '🌙 皓月当空 (炼神)'}
+                            </div>
+                         )}
+
                          {player.exp >= Math.floor(stats.maxExp * 0.95) && player.exp < stats.maxExp && (
-                            <div className="absolute -top-16 left-0 right-0 text-center animate-bounce pointer-events-auto">
+                            <div className="text-center animate-bounce pointer-events-auto">
                                <button 
                                  onClick={() => setShowPillSelect(true)}
                                  className="bg-red-900/90 text-red-200 px-3 py-1 rounded text-sm border border-red-500 flex items-center justify-center gap-2 mx-auto w-fit shadow-lg hover:bg-red-800 transition-colors"
@@ -1380,19 +1551,14 @@ export default function CultivationGame() {
                          )}
 
                          {player.exp >= stats.maxExp ? (
-                            <div className="space-y-2">
-                               <div className="text-amber-500 text-sm font-bold animate-pulse text-center">
-                                  瓶颈松动，可尝试突破至 {REALMS[player.realmIdx + 1]?.name || "未知"}
-                               </div>
-                               <Button onClick={attemptBreakthrough} variant="primary" className="w-full ring-2 ring-amber-500" sound="level_up">
-                                  <ArrowUpCircle size={18}/> 冲击瓶颈
-                               </Button>
-                            </div>
+                            <Button onClick={attemptBreakthrough} variant="primary" className="w-full ring-2 ring-amber-500" sound="level_up">
+                               <ArrowUpCircle size={18}/> 冲击瓶颈
+                            </Button>
                          ) : (
                             <Button 
                               onClick={() => { setIsMeditating(!isMeditating); if(!isMeditating && soundEnabled) SFX.play('click'); }} 
                               variant={isMeditating ? "outline" : "secondary"}
-                              className={`w-full ${isMeditating ? 'border-amber-500 text-amber-500' : ''}`}
+                              className={`w-full ${isMeditating ? 'border-amber-500 text-amber-500 bg-amber-900/20' : ''}`}
                             >
                                {isMeditating ? "停止吐纳" : "开始吐纳 (自动)"}
                             </Button>
@@ -1400,38 +1566,52 @@ export default function CultivationGame() {
                       </div>
                    </Card>
 
-                   <div className="space-y-6">
-                      <Card title="随身储物袋">
-                         <div className="grid grid-cols-4 gap-2 max-h-80 overflow-y-auto content-start">
-                            {Object.entries(player.inventory).map(([k, v]) => {
-                               const item = ITEMS[k];
-                               const Icon = item.icon || ShoppingBag;
-                               const isEquipped = player.equipped?.includes(k);
-                               
-                               return (
-                                  <div 
-                                    key={k} 
-                                    onClick={() => { setSelectedItem(k); SFX.play('click'); }}
-                                    className={`aspect-square bg-stone-800 rounded border ${isEquipped ? 'border-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.5)]' : 'border-stone-700 hover:border-amber-500'} cursor-pointer flex flex-col items-center justify-center relative group transition-all`}
-                                  >
-                                     <Icon size={24} className={`${isEquipped ? 'text-cyan-400' : 'text-stone-400 group-hover:text-amber-400'} mb-1`}/>
-                                     <span className="text-[10px] text-stone-500 truncate w-full text-center px-1">{item.name}</span>
-                                     <span className="absolute top-0 right-0 bg-stone-900 text-amber-600 text-[9px] px-1 rounded-bl border-l border-b border-stone-700">{v}</span>
-                                     {isEquipped && <div className="absolute top-0 left-0 bg-cyan-900/80 text-cyan-200 text-[8px] px-1 rounded-br">已装备</div>}
-                                  </div>
-                               )
-                            })}
-                            {[...Array(Math.max(0, 12 - Object.keys(player.inventory).length))].map((_, i) => (
-                               <div key={i} className="aspect-square bg-stone-900/50 rounded border border-stone-800/50"></div>
-                            ))}
+                   {/* 储物袋 (折叠式，移至底部) */}
+                   <div className="bg-stone-900 border-2 border-amber-800/50 rounded-lg p-4 shadow-xl relative overflow-hidden h-auto shrink-0">
+                      <div className="flex justify-between items-center">
+                         <div className="flex items-center gap-3">
+                            <Package className="text-amber-600" size={24}/>
+                            <h3 className="text-amber-500 font-serif font-bold text-sm tracking-widest">随身储物袋</h3>
                          </div>
-                      </Card>
+                         <button 
+                            onClick={() => setIsBagOpen(!isBagOpen)} 
+                            className="text-xs text-stone-500 hover:text-amber-400 border border-stone-700 px-2 py-1 rounded"
+                         >
+                            {isBagOpen ? "收起" : "展开"}
+                         </button>
+                      </div>
+                      
+                      {isBagOpen && (
+                         <div className="mt-4 grid grid-cols-4 gap-2 max-h-48 overflow-y-auto content-start animate-in slide-in-from-top-2">
+                             {Object.entries(player.inventory).map(([k, v]) => {
+                                const item = ITEMS[k];
+                                const Icon = item.icon || ShoppingBag;
+                                const isEquipped = player.equipped?.includes(k);
+                                
+                                return (
+                                   <div 
+                                     key={k} 
+                                     onClick={() => { setSelectedItem(k); SFX.play('click'); }}
+                                     className={`aspect-square bg-stone-800 rounded border ${isEquipped ? 'border-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.5)]' : 'border-stone-700 hover:border-amber-500'} cursor-pointer flex flex-col items-center justify-center relative group transition-all`}
+                                   >
+                                      <Icon size={24} className={`${isEquipped ? 'text-cyan-400' : 'text-stone-400 group-hover:text-amber-400'} mb-1`}/>
+                                      <span className="text-[10px] text-stone-500 truncate w-full text-center px-1">{item.name}</span>
+                                      <span className="absolute top-0 right-0 bg-stone-900 text-amber-600 text-[9px] px-1 rounded-bl border-l border-b border-stone-700">{v}</span>
+                                      {isEquipped && <div className="absolute top-0 left-0 bg-cyan-900/80 text-cyan-200 text-[8px] px-1 rounded-br">已装备</div>}
+                                   </div>
+                                )
+                             })}
+                             {[...Array(Math.max(0, 8 - Object.keys(player.inventory).length))].map((_, i) => (
+                                <div key={i} className="aspect-square bg-stone-900/50 rounded border border-stone-800/50"></div>
+                             ))}
+                         </div>
+                      )}
                    </div>
-                </div>
+                </>
               )}
 
               {view === "shop" && (
-                 <Card title="万宝楼交易行">
+                 <Card title="万宝楼交易行" className="flex-1">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                        {SHOP_INVENTORY.map((entry, i) => {
                           const item = ITEMS[entry.id];
@@ -1465,7 +1645,7 @@ export default function CultivationGame() {
               )}
 
               {(view === "garden" || view === "alchemy" || view === "explore") && (
-                 <div className="text-center py-4 bg-stone-900/50 rounded border border-stone-800 min-h-[500px] relative">
+                 <div className="flex-1 text-center py-4 bg-stone-900/50 rounded border border-stone-800 relative">
                     
                     {view === "explore" && exploreState.active && (
                        <div className="absolute inset-0 z-30 bg-stone-950 flex flex-col items-center justify-center overflow-hidden rounded-lg">
@@ -1591,9 +1771,9 @@ export default function CultivationGame() {
                                    <div className={`text-xs mt-2 font-bold text-center px-1 ${isAncient ? 'text-amber-200' : 'text-stone-300'}`}>{name}</div>
                                    
                                    <div className="flex flex-col gap-1 w-full px-2 mt-2">
-                                      <Button onClick={() => ripenHerb(p.id)} className="text-[10px] h-5 w-full" disabled={bottleCharge < 100} variant="secondary">催熟</Button>
+                                      <Button onClick={() => ripenHerb(p.id)} className="text-[10px] h-5 w-full border-green-600 text-green-400 hover:bg-green-900" disabled={bottleCharge < 100} variant="success">催熟</Button>
                                       {isMature && (
-                                         <Button onClick={() => harvestHerb(p.id, p.year)} className="text-[10px] h-5 w-full" variant="success">收获</Button>
+                                         <Button onClick={() => harvestHerb(p.id, p.year)} className="text-[10px] h-5 w-full" variant="warning">收获</Button>
                                       )}
                                    </div>
                                 </div>
