@@ -259,7 +259,7 @@ const ItemImage = ({ item, className = "", size = "w-full h-full" }) => {
 };
 
 const Card = ({ children, className = "", title, glow = false, noBorder = false }) => (
-  <div className={`${noBorder ? '' : 'bg-stone-900 border-2 shadow-xl'} ${glow ? 'border-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.3)]' : (noBorder ? '' : 'border-amber-800/50')} rounded-lg ${noBorder ? '' : 'p-4'} relative overflow-hidden ${className}`}>
+  <div className={`${noBorder ? 'flex flex-col' : 'bg-stone-900 border-2 shadow-xl'} ${glow ? 'border-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.3)]' : (noBorder ? '' : 'border-amber-800/50')} rounded-lg ${noBorder ? '' : 'p-4'} relative overflow-hidden ${className}`}>
     {title && (
       <div className={`absolute top-0 left-0 right-0 z-20 px-3 py-1 ${noBorder ? 'bg-gradient-to-b from-black/80 to-transparent' : 'bg-amber-900/20 border-b border-amber-800/30'}`}>
         <h3 className={`text-amber-500 font-serif font-bold text-sm tracking-widest flex items-center gap-2 ${noBorder ? 'drop-shadow-md' : ''}`}>
@@ -267,7 +267,7 @@ const Card = ({ children, className = "", title, glow = false, noBorder = false 
         </h3>
       </div>
     )}
-    <div className={`relative z-10 ${title ? (noBorder ? "h-full flex flex-col" : "mt-6") : ""}`}>{children}</div>
+    <div className={`relative z-10 ${title ? (noBorder ? "flex-1 flex flex-col h-full" : "mt-6") : ""}`}>{children}</div>
     {!noBorder && (
       <div className="absolute bottom-0 right-0 w-24 h-24 opacity-5 pointer-events-none">
         <svg viewBox="0 0 100 100" fill="currentColor" className="text-amber-500">
@@ -1245,13 +1245,19 @@ export default function CultivationGame() {
      const res = exploreState.result;
      if (res && res.type === 'loot') gainItem(res.key);
      if (res && res.type === 'enemy') {
-        setCombatState({ 
-            enemy: { ...res.data, maxHp: res.data.hp }, 
-            log: [`遭遇 ${res.data.name}！`], 
-            turn: 'player', 
-            isAnimating: false
-        });
-        setView("combat"); 
+        // 安全检查：确保 enemy 数据存在且完整
+        if (res.data) {
+            setCombatState({ 
+                enemy: { ...res.data, maxHp: res.data.hp }, 
+                log: [`遭遇 ${res.data.name}！`], 
+                turn: 'player', 
+                isAnimating: false
+            });
+            setView("combat"); 
+        } else {
+            console.error("Explore enemy data missing", res);
+            showToast("遭遇未知敌人，侥幸逃脱！");
+        }
      } 
      setExploreState({ active: false, progress: [], result: null, step: 0 });
   };
@@ -1560,9 +1566,11 @@ export default function CultivationGame() {
                              <div className="text-stone-400 text-sm mb-2">战利品</div>
                              <div className="flex items-center gap-2">
                                 <div className="w-12 h-12 bg-stone-900 rounded flex items-center justify-center border border-stone-600 p-1">
-                                   <ItemImage item={ITEMS[combatState.loot]} className="text-amber-400" />
+                                   {/* 安全访问 ITEMS */}
+                                   <ItemImage item={ITEMS[combatState.loot] || {}} className="text-amber-400" />
                                 </div>
-                                <span className="text-amber-100">{ITEMS[combatState.loot]?.name}</span>
+                                {/* 安全访问 ITEMS */}
+                                <span className="text-amber-100">{ITEMS[combatState.loot]?.name || '未知物品'}</span>
                              </div>
                           </div>
                           <Button onClick={claimVictory} variant="primary" className="w-40 py-3 text-lg">
