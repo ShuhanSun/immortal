@@ -1,12 +1,10 @@
-# Immortal Web Game
-[Play link](https://shuhansun.github.io/immortal/)
+# Game of Immortal 
+[Start Game](https://shuhansun.github.io/immortal/)
 
-## Run local
-npm run dev
+Fantasy Game, made by Shuhan Sun
 
+----
+## 凡人修仙游戏
+Shuhan 自制
 
-## Deploy
-npm run build
-npm run deploy
-
-[Play](https://shuhansun.github.io/immortal/)
+[开始游戏](https://shuhansun.github.io/immortal/)
